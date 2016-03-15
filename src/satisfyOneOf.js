@@ -1,5 +1,7 @@
 import invariant from "invariant";
 
+const entries = (obj) => Object.keys(obj).map((key) => [key, obj[key]]);
+
 const propValidates = ([name, propValidationFn]) => (props, componentName) => !(propValidationFn(props, name, componentName) instanceof Error);
 
 export const satisfyOneOf = (propSet) => {
@@ -15,7 +17,7 @@ export const satisfyOneOf = (propSet) => {
     const propSetValidationFailed = `Expected one in [${Object.keys(propSet).join(", ")}] to pass validation`;
 
     const satisfyOne = (name, propValidationFn) => {
-        const restOfPropSet = Object.entries(propSet).filter(([propName]) => propName !== name).map(propValidates);
+        const restOfPropSet = entries(propSet).filter(([propName]) => propName !== name).map(propValidates);
 
         return (props, propName, componentName) => {
             const shouldValidateLocally = null != props[propName];
@@ -28,7 +30,7 @@ export const satisfyOneOf = (propSet) => {
         };
     };
 
-    return Object.entries(propSet).
+    return entries(propSet).
         reduce((props, [name, propValidationFn]) => ({
             ...props,
             [name]: satisfyOne(name, propValidationFn)
