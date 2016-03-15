@@ -1,6 +1,6 @@
 {
   "name": "react-satisfy-propset",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Utility for having a set of props of which at least one is required to pass validation.",
   "main": "index.js",
   "scripts": {
